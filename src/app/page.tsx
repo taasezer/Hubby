@@ -1,5 +1,8 @@
+"use client";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { TabLayout } from "@/components/layout/TabLayout";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { RepositorySection } from "@/components/sections/RepositorySection";
 import { TeamSection } from "@/components/sections/TeamSection";
@@ -15,13 +18,17 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <HeroSection />
-        <RepositorySection />
-        <TeamSection />
-        <DashboardSection />
-        <WorkflowSection />
-        <RoadmapSection />
-        <AISection />
-        <TechStackSection />
+        <TabLayout>
+          {{
+            repositories: <RepositorySection />,
+            team: <TeamSection />,
+            dashboard: <DashboardSection />,
+            workflow: <WorkflowSection />,
+            roadmap: <RoadmapSection />,
+            "ai-systems": <AISection />,
+            "tech-stack": <TechStackSection />,
+          }}
+        </TabLayout>
       </main>
       <Footer />
     </>

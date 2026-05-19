@@ -21,13 +21,13 @@ export function SectionHeader({ badge, title, subtitle, className, id }: Section
       className={cn("text-center max-w-3xl mx-auto mb-16", className)}
       id={id}
     >
-      <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-crimson bg-crimson/10 rounded-full mb-6 border border-crimson/20">
+      <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-crimson bg-crimson/10 rounded-full mb-6 border border-crimson/20">
         {badge}
       </span>
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
         {title}
       </h2>
-      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-medium">
         {subtitle}
       </p>
     </motion.div>

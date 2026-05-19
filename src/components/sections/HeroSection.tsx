@@ -15,7 +15,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-hero">
       <div className="absolute inset-0 bg-grid-pattern opacity-30" />
 
       <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-crimson/5 blur-3xl animate-float" />
@@ -28,7 +28,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-crimson bg-crimson/10 rounded-full mb-8 border border-crimson/20">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-crimson bg-crimson/10 rounded-full mb-8 border border-crimson/20">
               <span className="w-1.5 h-1.5 rounded-full bg-crimson animate-pulse-soft" />
               {t.hero.badge}
             </span>
@@ -38,7 +38,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1] mb-6"
           >
             {t.hero.title}{" "}
             <span className="text-gradient-crimson">{t.hero.titleAccent}</span>
@@ -48,7 +48,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-medium"
           >
             {t.hero.subtitle}
           </motion.p>
@@ -57,30 +57,32 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+            className="mb-20"
           >
-            <a
-              href="#repositories"
-              className="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-foreground text-background font-medium text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              {t.hero.cta1}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
-            <a
-              href="#team"
-              className="inline-flex items-center justify-center h-12 px-8 rounded-lg border border-border font-medium text-sm transition-all hover:bg-accent hover:scale-[1.02] active:scale-[0.98]"
-            >
-              {t.hero.cta2}
-            </a>
+            <div className="glass-strong rounded-2xl p-3 inline-flex flex-col sm:flex-row items-center gap-3">
+              <a
+                href="#sections"
+                className="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-foreground text-background font-bold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto"
+              >
+                {t.hero.cta1}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="ml-2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                href="#sections"
+                className="inline-flex items-center justify-center h-12 px-8 rounded-xl border border-border font-bold text-sm transition-all hover:bg-accent hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto"
+              >
+                {t.hero.cta2}
+              </a>
+            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto"
           >
             {stats.map((stat, i) => (
               <motion.div
@@ -90,10 +92,10 @@ export function HeroSection() {
                 transition={{ delay: 0.6 + i * 0.1 }}
                 className="glass rounded-xl p-5 text-center"
               >
-                <div className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">
+                <div className="text-2xl sm:text-3xl font-black tracking-tight mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+                <div className="text-xs text-muted-foreground uppercase tracking-wider font-bold">
                   {stat.label}
                 </div>
               </motion.div>

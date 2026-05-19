@@ -52,35 +52,37 @@ export function RepositorySection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex flex-wrap items-center justify-center gap-2 mb-12"
+            className="flex justify-center mb-12"
           >
-            <button
-              onClick={() => setActiveFilter("All")}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                activeFilter === "All"
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
-              }`}
-            >
-              {t.repositories.filterAll}
-            </button>
-            {languages.map((lang) => (
+            <div className="glass-strong rounded-2xl p-2 flex flex-wrap items-center justify-center gap-1">
               <button
-                key={lang}
-                onClick={() => setActiveFilter(lang)}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all inline-flex items-center gap-2 ${
-                  activeFilter === lang
+                onClick={() => setActiveFilter("All")}
+                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+                  activeFilter === "All"
                     ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 }`}
               >
-                <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: LANGUAGE_COLORS[lang] || "#888" }}
-                />
-                {lang}
+                {t.repositories.filterAll}
               </button>
-            ))}
+              {languages.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveFilter(lang)}
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all inline-flex items-center gap-2 ${
+                    activeFilter === lang
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                  }`}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: LANGUAGE_COLORS[lang] || "#888" }}
+                  />
+                  {lang}
+                </button>
+              ))}
+            </div>
           </motion.div>
         )}
 
