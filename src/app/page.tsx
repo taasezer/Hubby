@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { RepositorySection } from "@/components/sections/RepositorySection";
 import { TeamSection } from "@/components/sections/TeamSection";
+import { DashboardSection } from "@/components/sections/DashboardSection";
 import { WorkflowSection } from "@/components/sections/WorkflowSection";
 import { RoadmapSection } from "@/components/sections/RoadmapSection";
 import { AISection } from "@/components/sections/AISection";
@@ -16,6 +17,7 @@ export default function Home() {
         <HeroSection />
         <RepositorySection />
         <TeamSection />
+        <DashboardSection />
         <WorkflowSection />
         <RoadmapSection />
         <AISection />

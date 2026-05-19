@@ -4,6 +4,7 @@ export const tr: Translations = {
   nav: {
     repositories: "Depolar",
     team: "Ekip",
+    dashboard: "Gösterge Paneli",
     workflow: "İş Akışı",
     roadmap: "Yol Haritası",
     aiSystems: "AI Sistemleri",
@@ -77,6 +78,22 @@ export const tr: Translations = {
     title: "AI Destekli Sistemler",
     subtitle:
       "Geliştirici verimliliğini artıran, dokümantasyonu otomatikleştiren ve eyleme dönüştürülebilir içgörüler sunan entegre AI yetenekleri.",
+  },
+  dashboard: {
+    badge: "Ekip Panosu",
+    title: "Kim Ne Yapıyor",
+    subtitle:
+      "Tüm katılımcılar genelinde ekip etkinliği, görev dağılımı ve sprint hızının gerçek zamanlı genel görünümü.",
+    totalTasks: "Toplam Görev",
+    completed: "Tamamlanan",
+    inReview: "İncelemede",
+    inProgress: "Devam Eden",
+    weeklyActivity: "Haftalık Aktivite",
+    commitsThisWeek: "Son 7 günün commit sıklığı",
+    teamWorkload: "Ekip İş Yükü",
+    taskDistribution: "Mühendis başına görev dağılımı ve tamamlanma oranı",
+    recentActivity: "Son Aktiviteler",
+    latestUpdates: "Ekipteki en son işlemler",
   },
   techStack: {
     badge: "Teknoloji",

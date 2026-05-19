@@ -67,6 +67,7 @@ export interface Translations {
   nav: {
     repositories: string;
     team: string;
+    dashboard: string;
     workflow: string;
     roadmap: string;
     aiSystems: string;
@@ -134,6 +135,21 @@ export interface Translations {
     badge: string;
     title: string;
     subtitle: string;
+  };
+  dashboard: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    totalTasks: string;
+    completed: string;
+    inReview: string;
+    inProgress: string;
+    weeklyActivity: string;
+    commitsThisWeek: string;
+    teamWorkload: string;
+    taskDistribution: string;
+    recentActivity: string;
+    latestUpdates: string;
   };
   techStack: {
     badge: string;

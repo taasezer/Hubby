@@ -4,6 +4,7 @@ export const en: Translations = {
   nav: {
     repositories: "Repositories",
     team: "Team",
+    dashboard: "Dashboard",
     workflow: "Workflow",
     roadmap: "Roadmap",
     aiSystems: "AI Systems",
@@ -77,6 +78,22 @@ export const en: Translations = {
     title: "AI-Powered Systems",
     subtitle:
       "Integrated AI capabilities that enhance developer productivity, automate documentation, and surface actionable insights.",
+  },
+  dashboard: {
+    badge: "Team Dashboard",
+    title: "Who's Doing What",
+    subtitle:
+      "Real-time overview of team activity, task distribution, and sprint velocity across all contributors.",
+    totalTasks: "Total Tasks",
+    completed: "Completed",
+    inReview: "In Review",
+    inProgress: "In Progress",
+    weeklyActivity: "Weekly Activity",
+    commitsThisWeek: "Commit frequency over the past 7 days",
+    teamWorkload: "Team Workload",
+    taskDistribution: "Task distribution and completion rate per engineer",
+    recentActivity: "Recent Activity",
+    latestUpdates: "Latest actions across the team",
   },
   techStack: {
     badge: "Technology",

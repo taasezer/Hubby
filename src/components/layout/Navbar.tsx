@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/shared/ThemeToggle";
 const navItems = [
   { key: "repositories", href: "#repositories" },
   { key: "team", href: "#team" },
+  { key: "dashboard", href: "#dashboard" },
   { key: "workflow", href: "#workflow" },
   { key: "roadmap", href: "#roadmap" },
   { key: "aiSystems", href: "#ai-systems" },

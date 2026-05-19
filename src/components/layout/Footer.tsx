@@ -10,6 +10,7 @@ export function Footer() {
   const navigationLinks = [
     { label: t.nav.repositories, href: "#repositories" },
     { label: t.nav.team, href: "#team" },
+    { label: t.nav.dashboard, href: "#dashboard" },
     { label: t.nav.workflow, href: "#workflow" },
     { label: t.nav.roadmap, href: "#roadmap" },
     { label: t.nav.aiSystems, href: "#ai-systems" },
