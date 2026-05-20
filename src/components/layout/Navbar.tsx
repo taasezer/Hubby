@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
@@ -24,12 +25,12 @@ export function Navbar() {
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-crimson-light to-crimson flex items-center justify-center shadow-lg shadow-crimson/20">
             <span className="text-white font-black text-sm">H</span>
           </div>
           <span className="font-black text-xl tracking-tight">Hubby</span>
-        </a>
+        </Link>
 
         <div className="flex items-center gap-1">
           <LanguageSwitcher />

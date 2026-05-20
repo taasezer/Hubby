@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslation } from "@/i18n";
 import { Separator } from "@/components/ui/separator";
 
@@ -8,13 +9,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const navigationLinks = [
-    { label: t.nav.repositories, href: "#repositories" },
-    { label: t.nav.team, href: "#team" },
-    { label: t.nav.dashboard, href: "#dashboard" },
-    { label: t.nav.workflow, href: "#workflow" },
-    { label: t.nav.roadmap, href: "#roadmap" },
-    { label: t.nav.aiSystems, href: "#ai-systems" },
-    { label: t.nav.techStack, href: "#tech-stack" },
+    { label: t.nav.repositories, href: "/repositories" },
+    { label: t.nav.team, href: "/team" },
+    { label: t.nav.dashboard, href: "/dashboard" },
+    { label: t.nav.workflow, href: "/workflow" },
+    { label: t.nav.roadmap, href: "/roadmap" },
+    { label: t.nav.aiSystems, href: "/ai-systems" },
+    { label: t.nav.techStack, href: "/tech-stack" },
   ];
 
   const resourceLinks = [
@@ -51,12 +52,12 @@ export function Footer() {
             <ul className="space-y-2.5">
               {navigationLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

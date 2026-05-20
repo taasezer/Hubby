@@ -137,7 +137,7 @@ export function RepositorySection() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
                   whileHover={{ y: -4 }}
-                  className="glass rounded-xl p-6 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
+                  className="glass-card rounded-xl p-6 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2 min-w-0">

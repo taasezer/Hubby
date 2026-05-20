@@ -59,7 +59,7 @@ export function TechStackSection() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
               whileHover={{ y: -4, scale: 1.02 }}
-              className="glass rounded-xl p-6 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
+              className="glass-card rounded-xl p-6 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
             >
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center flex-shrink-0 text-foreground/80 group-hover:text-crimson transition-colors border border-border">

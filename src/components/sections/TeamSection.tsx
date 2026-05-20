@@ -26,7 +26,7 @@ export function TeamSection() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
               whileHover={{ y: -6 }}
-              className="glass rounded-2xl p-8 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
+              className="glass-card rounded-2xl p-8 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
             >
               <div className="flex flex-col items-center text-center mb-6">
                 <div

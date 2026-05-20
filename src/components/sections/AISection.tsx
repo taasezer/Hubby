@@ -58,7 +58,7 @@ export function AISection() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               whileHover={{ y: -4 }}
-              className="glass rounded-2xl p-8 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
+              className="glass-card rounded-2xl p-8 group transition-all duration-300 hover:bg-[var(--glass-hover)] hover:glow-crimson"
             >
               <div className="flex items-start gap-5">
                 <div className="w-12 h-12 rounded-xl bg-crimson/10 border border-crimson/20 flex items-center justify-center flex-shrink-0 text-crimson group-hover:bg-crimson/20 transition-colors">
