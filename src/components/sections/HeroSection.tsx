@@ -62,10 +62,10 @@ export function HeroSection() {
           >
             <div className="glass-strong rounded-2xl p-3 inline-flex flex-col sm:flex-row items-center gap-3">
               <Link
-                href="/repositories"
+                href="/login"
                 className="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-foreground text-background font-bold text-sm transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto"
               >
-                {t.hero.cta1}
+                Giriş Yap
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="ml-2">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
