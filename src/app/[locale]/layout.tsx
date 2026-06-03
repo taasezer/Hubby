@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Hubby — AI-Powered Developer Collaboration Platform",
   description: "Repository intelligence, agile workflows, and AI-assisted development for modern engineering teams.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function LocaleLayout({

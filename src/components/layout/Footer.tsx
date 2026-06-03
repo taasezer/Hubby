@@ -35,8 +35,8 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-crimson-light to-crimson flex items-center justify-center">
-                <span className="text-white font-bold text-sm">H</span>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                <img src="/logo.png" alt="Hubby Logo" className="w-full h-full object-cover" />
               </div>
               <span className="font-bold text-lg tracking-tight">Hubby</span>
             </div>
