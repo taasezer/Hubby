@@ -16,6 +16,9 @@ export function Header() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [receiverId, setReceiverId] = useState("");
+  const [receiverSearch, setReceiverSearch] = useState("");
+  const [receiverOptions, setReceiverOptions] = useState<any[]>([]);
+  const [selectedReceiverName, setSelectedReceiverName] = useState("");
   const supabase = createClient();
 
   useEffect(() => {
@@ -53,6 +56,20 @@ export function Header() {
     }, 500);
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (receiverSearch.length < 2) {
+      setReceiverOptions([]);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await api.searchProfiles(receiverSearch);
+        setReceiverOptions(res.data || []);
+      } catch(e) { console.log(e) }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [receiverSearch]);
 
   const handleSendMessage = async () => {
     if (!receiverId || !messageText) return alert("Kişi ID'si ve mesaj girilmelidir.");
@@ -201,15 +218,43 @@ export function Header() {
             
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Alıcı Kullanıcı ID</label>
-                <input 
-                  type="text" 
-                  value={receiverId}
-                  onChange={e => setReceiverId(e.target.value)}
-                  placeholder="örn: a1b2c3d4-..." 
-                  className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm"
-                />
-                <p className="text-[10px] text-muted-foreground mt-1">Şimdilik test için alıcının UUID'sini girmelisiniz.</p>
+                <label className="text-xs font-bold text-muted-foreground uppercase mb-1 block">Kime Gönderilecek?</label>
+                {receiverId ? (
+                  <div className="flex items-center justify-between bg-white/10 border border-white/20 rounded-lg p-2.5">
+                    <span className="text-sm font-bold">{selectedReceiverName}</span>
+                    <button onClick={() => {setReceiverId(""); setSelectedReceiverName(""); setReceiverSearch("");}} className="text-xs text-red-400 hover:text-red-300">Değiştir</button>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      value={receiverSearch}
+                      onChange={e => setReceiverSearch(e.target.value)}
+                      placeholder="İsim veya kullanıcı adı ara..." 
+                      className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-sm"
+                    />
+                    {receiverOptions.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-white/10 rounded-lg shadow-xl overflow-hidden z-50 max-h-40 overflow-y-auto">
+                        {receiverOptions.map(opt => (
+                          <div 
+                            key={opt.id} 
+                            onClick={() => {
+                              setReceiverId(opt.id);
+                              setSelectedReceiverName(opt.full_name || opt.github_username || 'Kullanıcı');
+                              setReceiverOptions([]);
+                            }}
+                            className="p-2.5 hover:bg-white/10 cursor-pointer flex items-center gap-2"
+                          >
+                            <div className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-xs font-bold shrink-0 text-indigo-400">
+                              {(opt.full_name || opt.github_username || "?")[0].toUpperCase()}
+                            </div>
+                            <span className="text-sm font-medium">{opt.full_name || opt.github_username}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
               
               <div>
