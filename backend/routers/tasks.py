@@ -190,7 +190,7 @@ def delete_task(task_id: str, current_user: dict = Depends(get_current_user)):
 @router.get("/{task_id}/comments")
 def get_comments(task_id: str, current_user: dict = Depends(get_current_user)):
     sb = get_supabase()
-    res = sb.table("task_comments").select("*, profiles(full_name, avatar_url)").eq("task_id", task_id).order("created_at", asc=True).execute()
+    res = sb.table("task_comments").select("*, profiles(full_name, avatar_url)").eq("task_id", task_id).order("created_at").execute()
     return {"data": res.data}
 
 @router.post("/{task_id}/comments")

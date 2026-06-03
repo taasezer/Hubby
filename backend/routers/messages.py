@@ -19,7 +19,7 @@ def get_messages(user_id: Optional[str] = None, current_user: dict = Depends(get
         if user_id:
             res = sb.table("messages").select("*, sender:sender_id(full_name, avatar_url), receiver:receiver_id(full_name, avatar_url)").or_(
                 f"and(sender_id.eq.{my_id},receiver_id.eq.{user_id}),and(sender_id.eq.{user_id},receiver_id.eq.{my_id})"
-            ).order("created_at", asc=True).execute()
+            ).order("created_at").execute()
             return {"data": res.data}
         else:
             res = sb.table("messages").select("*, sender:sender_id(full_name, avatar_url), receiver:receiver_id(full_name, avatar_url)").or_(
