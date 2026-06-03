@@ -1,0 +1,23 @@
+{
+  "Dashboard": {
+    "title": "Tableau de Bord",
+    "projects": "Projets",
+    "tasks": "Tâches",
+    "ai_insights": "Aperçus IA",
+    "workflows": "Flux de Travail",
+    "settings": "Paramètres"
+  },
+  "Kanban": {
+    "todo": "À Faire",
+    "in_progress": "En Cours",
+    "review": "En Révision",
+    "done": "Terminé",
+    "add_task": "Ajouter une Tâche"
+  },
+  "Common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "logout": "Déconnexion"
+  }
+}

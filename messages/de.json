@@ -1,0 +1,23 @@
+{
+  "Dashboard": {
+    "title": "Dashboard",
+    "projects": "Projekte",
+    "tasks": "Aufgaben",
+    "ai_insights": "KI-Einblicke",
+    "workflows": "Arbeitsabläufe",
+    "settings": "Einstellungen"
+  },
+  "Kanban": {
+    "todo": "Zu erledigen",
+    "in_progress": "In Bearbeitung",
+    "review": "Überprüfung",
+    "done": "Erledigt",
+    "add_task": "Aufgabe hinzufügen"
+  },
+  "Common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "logout": "Abmelden"
+  }
+}

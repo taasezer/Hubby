@@ -1,0 +1,23 @@
+{
+  "Dashboard": {
+    "title": "Dashboard",
+    "projects": "Projects",
+    "tasks": "Tasks",
+    "ai_insights": "AI Insights",
+    "workflows": "Workflows",
+    "settings": "Settings"
+  },
+  "Kanban": {
+    "todo": "To Do",
+    "in_progress": "In Progress",
+    "review": "Review",
+    "done": "Done",
+    "add_task": "Add Task"
+  },
+  "Common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "logout": "Logout"
+  }
+}

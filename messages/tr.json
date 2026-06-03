@@ -1,0 +1,23 @@
+{
+  "Dashboard": {
+    "title": "Kontrol Paneli",
+    "projects": "Projeler",
+    "tasks": "Görevler",
+    "ai_insights": "Yapay Zeka İçgörüleri",
+    "workflows": "İş Akışları",
+    "settings": "Ayarlar"
+  },
+  "Kanban": {
+    "todo": "Yapılacaklar",
+    "in_progress": "Devam Ediyor",
+    "review": "İncelemede",
+    "done": "Tamamlandı",
+    "add_task": "Görev Ekle"
+  },
+  "Common": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "logout": "Çıkış Yap"
+  }
+}

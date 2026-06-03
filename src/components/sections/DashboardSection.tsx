@@ -1,80 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "@/i18n";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { TEAM_MEMBERS, WORKFLOW_ITEMS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
+import { api } from "@/services/api";
 
-const activityData = [
-  { day: "Mon", commits: 12, reviews: 4, tasks: 6 },
-  { day: "Tue", commits: 18, reviews: 7, tasks: 3 },
-  { day: "Wed", commits: 9, reviews: 5, tasks: 8 },
-  { day: "Thu", commits: 22, reviews: 9, tasks: 5 },
-  { day: "Fri", commits: 15, reviews: 6, tasks: 7 },
-  { day: "Sat", commits: 7, reviews: 2, tasks: 2 },
-  { day: "Sun", commits: 4, reviews: 1, tasks: 1 },
-];
-
-const recentActivities = [
-  {
-    id: "act-1",
-    user: "Taha Sezer",
-    initials: "TS",
-    action: "merged pull request",
-    target: "#47 GitHub API rate limit handler",
-    time: "2 hours ago",
-    color: "#8b1a1a",
-  },
-  {
-    id: "act-2",
-    user: "Bartu Selçuk",
-    initials: "BS",
-    action: "completed task",
-    target: "Liquid Glass Design System",
-    time: "4 hours ago",
-    color: "#2d1a4e",
-  },
-  {
-    id: "act-3",
-    user: "Yunus Emre Sayın",
-    initials: "YES",
-    action: "pushed 3 commits to",
-    target: "feature/ai-workflow-engine",
-    time: "5 hours ago",
-    color: "#1a3a5c",
-  },
-  {
-    id: "act-4",
-    user: "Taha Sezer",
-    initials: "TS",
-    action: "created issue",
-    target: "#52 Sprint velocity tracking dashboard",
-    time: "6 hours ago",
-    color: "#8b1a1a",
-  },
-  {
-    id: "act-5",
-    user: "Bartu Selçuk",
-    initials: "BS",
-    action: "opened pull request",
-    target: "#48 Responsive navigation overhaul",
-    time: "8 hours ago",
-    color: "#2d1a4e",
-  },
-  {
-    id: "act-6",
-    user: "Yunus Emre Sayın",
-    initials: "YES",
-    action: "reviewed pull request",
-    target: "#45 Repository intelligence pipeline",
-    time: "1 day ago",
-    color: "#1a3a5c",
-  },
-];
-
-function BarChart() {
-  const maxCommits = Math.max(...activityData.map((d) => d.commits));
+function BarChart({ activityData }: { activityData: any[] }) {
+  const maxCommits = Math.max(...activityData.map((d) => d.commits), 1);
 
   return (
     <div className="flex items-end gap-2 h-32 w-full">
@@ -88,7 +22,7 @@ function BarChart() {
             className="w-full rounded-t-sm bg-crimson/60 hover:bg-crimson transition-colors relative group min-h-[4px]"
           >
             <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-foreground text-background text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-              {day.commits} commits
+              {day.commits} işlem
             </div>
           </motion.div>
           <span className="text-[10px] text-muted-foreground font-medium">{day.day}</span>
@@ -107,17 +41,17 @@ function MemberWorkload({ name, initials, color, tasks }: { name: string; initia
       <div className="flex items-center gap-3 mb-3">
         <div
           className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}
+          style={{ background: color || `linear-gradient(135deg, #1a3a5c, #2d1a4e)` }}
         >
           <span className="text-white font-bold text-xs">{initials}</span>
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-medium text-sm truncate">{name}</div>
-          <div className="text-[11px] text-muted-foreground">{total} tasks assigned</div>
+          <div className="text-[11px] text-muted-foreground">{total} görev atandı</div>
         </div>
         <div className="text-right flex-shrink-0">
           <div className="font-bold text-sm">{completionRate}%</div>
-          <div className="text-[10px] text-muted-foreground">done</div>
+          <div className="text-[10px] text-muted-foreground">tamamlandı</div>
         </div>
       </div>
 
@@ -177,24 +111,80 @@ function MemberWorkload({ name, initials, color, tasks }: { name: string; initia
 
 export function DashboardSection() {
   const { t } = useTranslation();
+  
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-  const memberTaskCounts = TEAM_MEMBERS.map((member) => {
-    const memberTasks = WORKFLOW_ITEMS.filter((item) => item.assignee === member.name);
-    return {
-      ...member,
-      tasks: {
-        todo: memberTasks.filter((t) => t.status === "todo").length,
-        inProgress: memberTasks.filter((t) => t.status === "in-progress").length,
-        review: memberTasks.filter((t) => t.status === "review").length,
-        completed: memberTasks.filter((t) => t.status === "completed").length,
-      },
+  useEffect(() => {
+    setMounted(true);
+    const fetchData = async () => {
+      try {
+        const [tasksRes, actsRes] = await Promise.all([
+          api.getTasks(),
+          api.getActivities()
+        ]);
+        setTasks(tasksRes.data || []);
+        setActivities(actsRes.data || []);
+      } catch (err) {
+        console.log("Dashboard verileri alınamadı (sunucu kapalı olabilir).", err);
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchData();
+  }, []);
+
+  if (!mounted) return null;
+
+  // Compute stats dynamically
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter((t) => t.status === "completed").length;
+  const inProgressTasks = tasks.filter((t) => t.status === "in-progress").length;
+  const reviewTasks = tasks.filter((t) => t.status === "review").length;
+
+  // Group tasks by assignee
+  const assigneeMap: Record<string, any> = {};
+  tasks.forEach(task => {
+    let name = "Atanmamış";
+    let initials = "?";
+    
+    // Attempt to extract assignee name from profiles if exists
+    if (task.profiles) {
+      if (Array.isArray(task.profiles) && task.profiles.length > 0) {
+        name = task.profiles[0].full_name || name;
+      } else if (task.profiles.full_name) {
+        name = task.profiles.full_name;
+      }
+    }
+    
+    if (name !== "Atanmamış") {
+      initials = name.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase();
+    }
+
+    if (!assigneeMap[name]) {
+      assigneeMap[name] = {
+        name,
+        initials,
+        tasks: { todo: 0, inProgress: 0, review: 0, completed: 0 }
+      };
+    }
+    
+    if (task.status === "todo") assigneeMap[name].tasks.todo++;
+    else if (task.status === "in-progress") assigneeMap[name].tasks.inProgress++;
+    else if (task.status === "review") assigneeMap[name].tasks.review++;
+    else if (task.status === "completed") assigneeMap[name].tasks.completed++;
   });
 
-  const totalTasks = WORKFLOW_ITEMS.length;
-  const completedTasks = WORKFLOW_ITEMS.filter((t) => t.status === "completed").length;
-  const inProgressTasks = WORKFLOW_ITEMS.filter((t) => t.status === "in-progress").length;
-  const reviewTasks = WORKFLOW_ITEMS.filter((t) => t.status === "review").length;
+  const memberTaskCounts = Object.values(assigneeMap);
+
+  // Generate chart data from activities (Mocking past days, adding real data to today)
+  const days = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+  const activityData = days.map(d => ({ day: d, commits: Math.floor(Math.random() * 15) + 1 }));
+  // Add actual activities length to the current day
+  const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+  activityData[todayIndex].commits += activities.length;
 
   return (
     <section id="dashboard" className="py-24 sm:py-32 relative bg-gradient-dark">
@@ -241,7 +231,7 @@ export function DashboardSection() {
               {t.dashboard.weeklyActivity}
             </h3>
             <p className="text-xs text-muted-foreground mb-5">{t.dashboard.commitsThisWeek}</p>
-            <BarChart />
+            <BarChart activityData={activityData} />
           </motion.div>
 
           <motion.div
@@ -256,15 +246,19 @@ export function DashboardSection() {
             </h3>
             <p className="text-xs text-muted-foreground mb-5">{t.dashboard.taskDistribution}</p>
             <div className="space-y-3">
-              {memberTaskCounts.map((member) => (
-                <MemberWorkload
-                  key={member.id}
-                  name={member.name}
-                  initials={member.initials}
-                  color={member.gradientFrom}
-                  tasks={member.tasks}
-                />
-              ))}
+              {memberTaskCounts.length > 0 ? (
+                memberTaskCounts.map((member: any, i) => (
+                  <MemberWorkload
+                    key={i}
+                    name={member.name}
+                    initials={member.initials}
+                    color={`linear-gradient(135deg, #1a3a5c, #2d1a4e)`}
+                    tasks={member.tasks}
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">Henüz atanan görev yok.</p>
+              )}
             </div>
           </motion.div>
         </div>
@@ -282,33 +276,45 @@ export function DashboardSection() {
           <p className="text-xs text-muted-foreground mb-5">{t.dashboard.latestUpdates}</p>
 
           <div className="space-y-1">
-            {recentActivities.map((activity, i) => (
-              <motion.div
-                key={activity.id}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-accent/50 transition-colors"
-              >
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${activity.color}, ${activity.color}cc)` }}
-                >
-                  <span className="text-white font-bold text-[9px]">{activity.initials}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm leading-snug">
-                    <span className="font-medium">{activity.user}</span>{" "}
-                    <span className="text-muted-foreground">{activity.action}</span>{" "}
-                    <span className="font-medium text-crimson">{activity.target}</span>
-                  </p>
-                </div>
-                <span className="text-[11px] text-muted-foreground flex-shrink-0 hidden sm:block">
-                  {activity.time}
-                </span>
-              </motion.div>
-            ))}
+            {activities.length > 0 ? (
+              activities.slice(0, 10).map((activity, i) => {
+                let name = "Sistem";
+                let initials = "S";
+                if (activity.profiles) {
+                  name = Array.isArray(activity.profiles) ? activity.profiles[0]?.full_name : activity.profiles?.full_name;
+                  if (name) initials = name.split(" ").map((n: string) => n[0]).join("").substring(0,2).toUpperCase();
+                }
+
+                return (
+                  <motion.div
+                    key={activity.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-accent/50 transition-colors"
+                  >
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-indigo-500 to-purple-500"
+                    >
+                      <span className="text-white font-bold text-[9px]">{initials}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm leading-snug">
+                        <span className="font-medium">{name}</span>{" "}
+                        <span className="text-muted-foreground">{activity.action}</span>{" "}
+                        <span className="font-medium text-crimson">{activity.details}</span>
+                      </p>
+                    </div>
+                    <span className="text-[11px] text-muted-foreground flex-shrink-0 hidden sm:block">
+                      {new Date(activity.created_at).toLocaleDateString()}
+                    </span>
+                  </motion.div>
+                );
+              })
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">Henüz bir aktivite yok.</p>
+            )}
           </div>
         </motion.div>
       </div>

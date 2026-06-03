@@ -1,0 +1,23 @@
+{
+  "Dashboard": {
+    "title": "Panel de Control",
+    "projects": "Proyectos",
+    "tasks": "Tareas",
+    "ai_insights": "Perspectivas de IA",
+    "workflows": "Flujos de Trabajo",
+    "settings": "Ajustes"
+  },
+  "Kanban": {
+    "todo": "Por Hacer",
+    "in_progress": "En Progreso",
+    "review": "En Revisión",
+    "done": "Hecho",
+    "add_task": "Añadir Tarea"
+  },
+  "Common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "logout": "Cerrar Sesión"
+  }
+}
