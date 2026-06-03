@@ -8,7 +8,7 @@ import { Link } from '@/i18n/routing';
 
 export function Header() {
   const [user, setUser] = useState<any>(null);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{projects: any[], tasks: any[]}>({projects: [], tasks: []});
@@ -19,6 +19,7 @@ export function Header() {
   const [receiverSearch, setReceiverSearch] = useState("");
   const [receiverOptions, setReceiverOptions] = useState<any[]>([]);
   const [selectedReceiverName, setSelectedReceiverName] = useState("");
+  const [openDropdown, setOpenDropdown] = useState<"messages" | "notifications" | "profile" | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -71,6 +72,12 @@ export function Header() {
     return () => clearTimeout(timer);
   }, [receiverSearch]);
 
+  useEffect(() => {
+    const handleClickOutside = () => setOpenDropdown(null);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   const handleSendMessage = async () => {
     if (!receiverId || !messageText) return alert("Kişi ID'si ve mesaj girilmelidir.");
     try {
@@ -97,7 +104,7 @@ export function Header() {
           placeholder="Projelerde veya görevlerde ara..." 
           className="w-full bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md rounded-full py-2.5 pl-10 pr-4 text-sm font-medium focus:outline-none focus:border-white/30 focus:shadow-[0_4px_30px_rgba(255,255,255,0.1)] transition-all duration-300"
         />
-        {(searchResults.projects.length > 0 || searchResults.tasks.length > 0) && (
+        {(searchResults.projects.length > 0 || searchResults.tasks.length > 0) ? (
           <div className="absolute top-full mt-3 w-full bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
             {searchResults.projects.length > 0 && (
               <div className="p-3 border-b border-border/50">
@@ -120,24 +127,31 @@ export function Header() {
               </div>
             )}
           </div>
-        )}
+        ) : (searchQuery.length >= 2 && !isSearching) ? (
+          <div className="absolute top-full mt-3 w-full bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-4 text-center text-sm font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2">
+            Aramanızla eşleşen sonuç bulunamadı.
+          </div>
+        ) : null}
       </div>
 
       <div className="flex items-center gap-6">
         {/* Messages Dropdown */}
-        <div className="relative group cursor-pointer py-2">
-          <div className="relative p-2 text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-md hover:shadow-lg rounded-full border border-transparent hover:border-white/10">
+        <div className="relative py-2" onClick={(e) => e.stopPropagation()}>
+          <div 
+            onClick={() => setOpenDropdown(openDropdown === "messages" ? null : "messages")}
+            className="relative p-2 cursor-pointer text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-md hover:shadow-lg rounded-full border border-transparent hover:border-white/10"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             {messages.filter(m => !m.is_read && m.receiver_id === user?.id).length > 0 && (
               <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
             )}
           </div>
           
-          <div className="absolute top-full right-0 pt-2 w-80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+          <div className={`absolute top-full right-0 pt-2 w-80 transition-all duration-300 ${openDropdown === "messages" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
             <div className="bg-background/90 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-96">
               <div className="p-3 border-b border-border/50 flex justify-between items-center bg-white/5">
                 <span className="font-bold text-sm">Mesajlar</span>
-                <button onClick={(e) => { e.stopPropagation(); setShowMessageModal(true); }} className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 rounded-md hover:bg-blue-500/10">Yeni Mesaj</button>
+                <button onClick={(e) => { e.stopPropagation(); setShowMessageModal(true); setOpenDropdown(null); }} className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 rounded-md hover:bg-blue-500/10">Yeni Mesaj</button>
               </div>
               <div className="overflow-y-auto p-2 space-y-1">
                 {messages.length === 0 ? (
@@ -169,19 +183,62 @@ export function Header() {
           </div>
         </div>
 
-        <button className="relative p-2 text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-md hover:shadow-lg rounded-full border border-transparent hover:border-white/10">
-          <Bell size={22} />
-          {notifications.length > 0 && (
-            <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
-          )}
-        </button>
+        <div className="relative py-2" onClick={(e) => e.stopPropagation()}>
+          <button 
+            onClick={() => setOpenDropdown(openDropdown === "notifications" ? null : "notifications")}
+            className="relative p-2 text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-md hover:shadow-lg rounded-full border border-transparent hover:border-white/10"
+          >
+            <Bell size={22} />
+            {notifications.length > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+            )}
+          </button>
+          
+          <div className={`absolute top-full right-0 pt-2 w-80 z-50 transition-all duration-300 ${openDropdown === "notifications" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
+            <div className="bg-background/90 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-96">
+              <div className="p-3 border-b border-border/50 flex justify-between items-center bg-white/5">
+                <span className="font-bold text-sm">Bildirimler</span>
+              </div>
+              <div className="overflow-y-auto p-2 space-y-1">
+                {notifications.length === 0 ? (
+                  <p className="text-xs text-muted-foreground text-center py-4">Yeni bildiriminiz yok.</p>
+                ) : (
+                  notifications.slice(0, 5).map((n: any) => (
+                    <div 
+                      key={n.id} 
+                      onClick={async () => {
+                        await api.markNotificationRead(n.id);
+                        setNotifications(prev => prev.filter(notif => notif.id !== n.id));
+                      }}
+                      className="flex gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer border-b border-border/30 last:border-0"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0">
+                        <Bell size={14} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground">{n.content}</p>
+                        <span className="text-[10px] text-muted-foreground mt-1 block">
+                          {new Date(n.created_at).toLocaleDateString()} {new Date(n.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </span>
+                      </div>
+                      <div className="w-2 h-2 rounded-full bg-red-500 self-center"></div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
         
-        <div className="flex items-center gap-3 border-l border-border/50 pl-6 relative group cursor-pointer py-2">
+        <div className="flex items-center gap-3 border-l border-border/50 pl-6 relative py-2" onClick={(e) => e.stopPropagation()}>
           <div className="text-right hidden md:block">
             <p className="text-sm font-bold">{user?.user_metadata?.full_name || 'Geliştirici'}</p>
             <p className="text-xs text-muted-foreground font-medium">{user?.email}</p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 border border-white/10">
+          <div 
+            onClick={() => setOpenDropdown(openDropdown === "profile" ? null : "profile")}
+            className="w-10 h-10 rounded-full cursor-pointer bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 border border-white/10"
+          >
             {user?.user_metadata?.avatar_url ? (
               <img src={user.user_metadata.avatar_url} alt="Profil" className="w-full h-full object-cover" />
             ) : (
@@ -189,7 +246,7 @@ export function Header() {
             )}
           </div>
           
-          <div className="absolute top-full right-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+          <div className={`absolute top-full right-0 pt-2 w-48 transition-all duration-300 ${openDropdown === "profile" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
             <div className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-2 flex flex-col gap-1">
               <Link 
                 href="/settings"
