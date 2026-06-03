@@ -105,7 +105,7 @@ export function Header() {
           className="w-full bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md rounded-full py-2.5 pl-10 pr-4 text-sm font-medium focus:outline-none focus:border-white/30 focus:shadow-[0_4px_30px_rgba(255,255,255,0.1)] transition-all duration-300"
         />
         {(searchResults.projects.length > 0 || searchResults.tasks.length > 0) ? (
-          <div className="absolute top-full mt-3 w-full bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+          <div className="absolute top-full mt-3 w-full z-[100] bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
             {searchResults.projects.length > 0 && (
               <div className="p-3 border-b border-border/50">
                 <p className="text-xs font-bold text-muted-foreground uppercase mb-2">Projeler</p>
@@ -128,7 +128,7 @@ export function Header() {
             )}
           </div>
         ) : (searchQuery.length >= 2 && !isSearching) ? (
-          <div className="absolute top-full mt-3 w-full bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-4 text-center text-sm font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2">
+          <div className="absolute top-full mt-3 w-full z-[100] bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-4 text-center text-sm font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2">
             Aramanızla eşleşen sonuç bulunamadı.
           </div>
         ) : null}
@@ -147,7 +147,7 @@ export function Header() {
             )}
           </div>
           
-          <div className={`absolute top-full right-0 pt-2 w-80 transition-all duration-300 ${openDropdown === "messages" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
+          <div className={`absolute top-full right-0 pt-2 w-80 z-[100] transition-all duration-300 ${openDropdown === "messages" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
             <div className="bg-background/90 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-96">
               <div className="p-3 border-b border-border/50 flex justify-between items-center bg-white/5">
                 <span className="font-bold text-sm">Mesajlar</span>
@@ -194,7 +194,7 @@ export function Header() {
             )}
           </button>
           
-          <div className={`absolute top-full right-0 pt-2 w-80 z-50 transition-all duration-300 ${openDropdown === "notifications" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
+          <div className={`absolute top-full right-0 pt-2 w-80 z-[100] transition-all duration-300 ${openDropdown === "notifications" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
             <div className="bg-background/90 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-96">
               <div className="p-3 border-b border-border/50 flex justify-between items-center bg-white/5">
                 <span className="font-bold text-sm">Bildirimler</span>
