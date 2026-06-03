@@ -246,7 +246,7 @@ export function Header() {
             )}
           </div>
           
-          <div className={`absolute top-full right-0 pt-2 w-48 transition-all duration-300 ${openDropdown === "profile" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
+          <div className={`absolute top-full right-0 pt-2 w-48 z-[100] transition-all duration-300 ${openDropdown === "profile" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
             <div className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-2 flex flex-col gap-1">
               <Link 
                 href="/settings"

@@ -5,15 +5,27 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/shared/LanguageSwitcher";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { createClient } from "@/utils/supabase/client";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const supabase = createClient();
 
   useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [supabase]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.reload();
+  };
 
   return (
     <motion.header
@@ -37,9 +49,20 @@ export function Navbar() {
             <LanguageSwitcher />
             <ThemeToggle />
           </div>
-          <Link href="/login" className="px-5 py-2 bg-foreground text-background font-bold text-sm rounded-xl hover:opacity-90 transition-opacity">
-            Giriş Yap
-          </Link>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link href="/tr/dashboard" className="px-5 py-2 bg-foreground text-background font-bold text-sm rounded-xl hover:opacity-90 transition-opacity">
+                Dashboard
+              </Link>
+              <button onClick={handleLogout} className="px-5 py-2 bg-red-500/10 text-red-500 font-bold text-sm rounded-xl hover:bg-red-500/20 transition-all">
+                Çıkış Yap
+              </button>
+            </div>
+          ) : (
+            <Link href="/tr/login" className="px-5 py-2 bg-foreground text-background font-bold text-sm rounded-xl hover:opacity-90 transition-opacity">
+              Giriş Yap
+            </Link>
+          )}
         </div>
       </nav>
     </motion.header>
